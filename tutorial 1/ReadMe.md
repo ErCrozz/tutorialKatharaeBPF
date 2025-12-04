@@ -1,6 +1,6 @@
 # Kathara Lab – eBPF Usage
 
-Questo laboratorio utilizza un singolo nodo chiamato **firewall**, come definito nel file `lab.conf`:
+This lab uses a single node named **firewall**, as defined in the `lab.conf` file:
 
 ```conf
 # Firewall eBPF
@@ -9,46 +9,46 @@ firewall[image]="kathara/ebpf"
 firewall[ipv6]="false"
 ```
 
-L’immagine Docker **kathara/ebpf** contiene tutte le dipendenze necessarie per compilare ed eseguire programmi eBPF.
+The **kathara/ebpf** Docker image includes all required dependencies to compile and run eBPF programs.
 
-Il programma eBPF fornito è progettato per **scartare tutti i pacchetti in ingresso** una volta attivato.
+The provided eBPF program is designed to **discard all incoming packets** once attached.
 
 ---
 
-## 1. Verificare i programmi eBPF attivi
+## 1. Check Active eBPF Programs
 
-Prima di compilare o collegare un nuovo programma, controlla cosa è già caricato:
+Before compiling or attaching any new eBPF program, check what is already loaded:
 
 ```bash
 bpftool prog show
 bpftool net
 ```
 
-Questi comandi mostrano i programmi eBPF attivi e gli hook di rete utilizzati.
+These commands display the currently active eBPF programs and network hooks.
 
 ---
 
-## 2. Compilare il programma eBPF
+## 2. Compile the eBPF Program
 
-Spostati nella home e usa il Makefile per compilare (puoi modificare il programma se necessario):
+Move to the home directory and use the Makefile to compile the program (you may modify the source code if needed):
 
 ```bash
 cd /home && make
 ```
 
-Questo comando genera il file oggetto `firewall.o`, pronto per essere collegato all’interfaccia di rete.
+This command generates the `firewall.o` object file, ready to be attached to the network interface.
 
 ---
 
-## 3. Attivare il programma eBPF
+## 3. Attach the eBPF Program
 
-Per collegare il programma all’interfaccia **eth0**:
+To attach the program to interface **eth0**:
 
 ```bash
 ip link set dev eth0 xdp obj firewall.o sec xdp
 ```
 
-Dopo l’operazione, verifica di nuovo i programmi attivi:
+After attaching, verify that the program is active:
 
 ```bash
 bpftool prog show
@@ -57,9 +57,9 @@ bpftool net
 
 ---
 
-## 4. Disattivare il programma eBPF
+## 4. Disable the eBPF Program
 
-Per rimuovere il programma da `eth0`:
+To remove the program from `eth0`:
 
 ```bash
 ip link set dev eth0 xdp off
@@ -67,12 +67,11 @@ ip link set dev eth0 xdp off
 
 ---
 
-## Note aggiuntive
+## Additional Notes
 
-Per ulteriori dettagli e comandi aggiuntivi, consulta il README nella cartella superiore.
-Contiene spiegazioni complete riguardo all’uso dei programmi eBPF ed è consigliato leggerlo per primo.
+For more details and additional commands, refer to the README in the parent directory.
+It contains comprehensive explanations about using eBPF programs and should be read first.
 
 ---
 
-Buon testing e buon apprendimento! 🚀
-
+Happy testing and learning! 🚀
