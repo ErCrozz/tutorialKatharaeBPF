@@ -1,5 +1,3 @@
----
-
 # Kathara Lab – eBPF Usage
 
 Questo laboratorio utilizza un singolo nodo chiamato **firewall**, come definito nel file `lab.conf`:
@@ -77,3 +75,4 @@ Contiene spiegazioni complete riguardo all’uso dei programmi eBPF ed è consig
 ---
 
 Buon testing e buon apprendimento! 🚀
+
