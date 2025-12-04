@@ -1,9 +1,9 @@
 # eBPF Firewall Lab
 
-In questo laboratorio, il firewall esegue un programma eBPF che **conta il numero di pacchetti in ingresso**.
-Ad esempio, inviando un ping da *pc0*, il contatore nel programma eBPF verrà incrementato.
+In this lab, the firewall runs an eBPF program that **counts the number of incoming packets**.
+For example, when sending a ping from *pc0*, the counter inside the eBPF program will increase.
 
-Segui i passaggi riportati di seguito per compilare, attivare e monitorare il comportamento del programma.
+Follow the steps below to compile, attach, and monitor the program’s behavior.
 
 ---
 
@@ -11,51 +11,51 @@ Segui i passaggi riportati di seguito per compilare, attivare e monitorare il co
 
 ### 1. Compile the eBPF Program
 
-Spostati nella home e compila il programma con il Makefile.
-Puoi modificare il codice sorgente se necessario.
+Navigate to the home directory and compile the program using the Makefile.
+You may modify the source code if needed.
 
 ```bash
 cd /home && make
 ```
 
-Questo comando genera il file oggetto **firewall.o**.
+This command generates the **firewall.o** object file.
 
 ---
 
 ### 2. Attach the eBPF Program
 
-Collega il programma compilato all’interfaccia **eth0**:
+Attach the compiled program to the **eth0** interface:
 
 ```bash
 ip link set dev eth0 xdp obj firewall.o sec xdp
 ```
 
-Dopo l’aggancio, verifica che il programma sia attivo:
+After attaching, verify that the program is active:
 
 ```bash
 bpftool prog show
 bpftool net
 ```
 
-Questi comandi mostrano i programmi eBPF attivi e le relative mappe.
+These commands display the active eBPF programs and their associated maps.
 
 ---
 
 ### 3. View the Packet Count Map
 
-Individua l’ID della mappa tramite `bpftool prog show`, poi esegui:
+Identify the map ID using `bpftool prog show`, then run:
 
 ```bash
 bpftool map dump id <ID>
 ```
 
-Sostituisci `<ID>` con l’ID reale della mappa per visualizzare il contatore dei pacchetti.
+Replace `<ID>` with the actual map ID to view the packet counter.
 
 ---
 
 ### 4. Ping the Firewall from pc0
 
-Dal nodo **pc0**, genera traffico verso il firewall:
+From the **pc0** node, generate traffic toward the firewall:
 
 ```bash
 ping <firewall_IP>
@@ -65,19 +65,19 @@ ping <firewall_IP>
 
 ### 5. View the Updated Packet Count Map
 
-Esegui nuovamente:
+Run again:
 
 ```bash
 bpftool map dump id <ID>
 ```
 
-La mappa ora mostrerà il nuovo valore del contatore aggiornato.
+You will now see the updated counter value.
 
 ---
 
 ### 6. Disable the eBPF Program (Optional)
 
-Per disattivare il programma:
+To detach the program:
 
 ```bash
 ip link set dev eth0 xdp off
@@ -87,10 +87,10 @@ ip link set dev eth0 xdp off
 
 ## Additional Lab Information
 
-Puoi anche collegare il container **Wireshark** all’interfaccia per analizzare il traffico generato e ottenere una visione più dettagliata del comportamento di rete.
+You can also attach the **Wireshark** container to the interface to analyze the generated traffic and obtain deeper insights into network behavior.
 
-Per ulteriori informazioni, consulta il README nella cartella superiore: contiene istruzioni approfondite sull’uso dei programmi eBPF e dei comandi correlati.
+For more details, refer to the README in the parent directory, which provides comprehensive instructions on using eBPF programs and related commands.
 
 ---
 
-Buon lavoro e buon apprendimento! 🚀
+Happy testing and learning! 🚀
